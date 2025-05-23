@@ -1,0 +1,4 @@
+npm install
+npm audit fix
+npx prisma generate
+npm install multer @types/multer
