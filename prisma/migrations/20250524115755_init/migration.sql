@@ -1,47 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Berita` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Lokasi` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Team` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `TeamTournament` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Tournament` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE "Berita" DROP CONSTRAINT "Berita_UserId_fkey";
-
--- DropForeignKey
-ALTER TABLE "TeamTournament" DROP CONSTRAINT "TeamTournament_TeamID_fkey";
-
--- DropForeignKey
-ALTER TABLE "TeamTournament" DROP CONSTRAINT "TeamTournament_TournamentID_fkey";
-
--- DropForeignKey
-ALTER TABLE "Tournament" DROP CONSTRAINT "Tournament_LokasiID_fkey";
-
--- DropForeignKey
-ALTER TABLE "User" DROP CONSTRAINT "User_TeamID_fkey";
-
--- DropTable
-DROP TABLE "Berita";
-
--- DropTable
-DROP TABLE "Lokasi";
-
--- DropTable
-DROP TABLE "Team";
-
--- DropTable
-DROP TABLE "TeamTournament";
-
--- DropTable
-DROP TABLE "Tournament";
-
--- DropTable
-DROP TABLE "User";
-
 -- CreateTable
 CREATE TABLE "users" (
     "UserId" SERIAL NOT NULL,
@@ -52,8 +8,8 @@ CREATE TABLE "users" (
     "nama_belakang" VARCHAR(100) NOT NULL,
     "nomor_telp" VARCHAR(100) NOT NULL,
     "nicknamegame" VARCHAR(100) NOT NULL,
-    "TeamID" INTEGER NOT NULL,
-    "Token" VARCHAR(100) NOT NULL,
+    "TeamID" INTEGER,
+    "Token" VARCHAR(100),
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("UserId")
 );
@@ -87,7 +43,7 @@ CREATE TABLE "tournaments" (
     "image" VARCHAR(100) NOT NULL,
     "tipe" VARCHAR(100) NOT NULL,
     "biaya" VARCHAR(100) NOT NULL,
-    "LokasiID" INTEGER NOT NULL,
+    "lokasi" VARCHAR(100) NOT NULL,
 
     CONSTRAINT "tournaments_pkey" PRIMARY KEY ("TournamentID")
 );
@@ -102,14 +58,6 @@ CREATE TABLE "team_tournaments" (
     CONSTRAINT "team_tournaments_pkey" PRIMARY KEY ("TeamID","TournamentID")
 );
 
--- CreateTable
-CREATE TABLE "lokasis" (
-    "LokasiID" SERIAL NOT NULL,
-    "lokasiAcara" VARCHAR(100) NOT NULL,
-
-    CONSTRAINT "lokasis_pkey" PRIMARY KEY ("LokasiID")
-);
-
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
@@ -118,9 +66,6 @@ ALTER TABLE "users" ADD CONSTRAINT "users_TeamID_fkey" FOREIGN KEY ("TeamID") RE
 
 -- AddForeignKey
 ALTER TABLE "beritas" ADD CONSTRAINT "beritas_UserId_fkey" FOREIGN KEY ("UserId") REFERENCES "users"("UserId") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "tournaments" ADD CONSTRAINT "tournaments_LokasiID_fkey" FOREIGN KEY ("LokasiID") REFERENCES "lokasis"("LokasiID") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "team_tournaments" ADD CONSTRAINT "team_tournaments_TeamID_fkey" FOREIGN KEY ("TeamID") REFERENCES "teams"("TeamId") ON DELETE CASCADE ON UPDATE CASCADE;

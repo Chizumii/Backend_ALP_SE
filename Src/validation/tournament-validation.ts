@@ -7,7 +7,7 @@ export class TournamentValidation {
         image: z.string().min(1).max(100),
         tipe: z.string().min(1).max(100),
         biaya: z.string().min(1).max(100),
-        LokasiID: z.number().int(),
+        lokasi: z.string().min(1).max(100),
     });
 
     static readonly UPDATE: ZodType = z.object({
@@ -16,6 +16,6 @@ export class TournamentValidation {
         image: z.string().min(1).max(100),
         tipe: z.string().min(1).max(100),
         biaya: z.string().min(1).max(100),
-        LokasiID: z.string().min(1).max(100),
+        lokasi: z.string().min(1).max(100),
     });
 }

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import { TournamentValidation } from "../validation/tournament-validation";
 import { ZodError } from "zod";
 
@@ -6,10 +6,14 @@ const prisma = new PrismaClient();
 
 export class TournamentService {
     // Create a tournament
-    static async createTournament(data: any) {
+    static async createTournament(data: any, user: User) {
         try {
             // Validate the data using Zod
             const validatedData = TournamentValidation.CREATE.parse(data);
+
+            if(user.role == 'player'){
+                return "Player not authorized to create a Tournament"
+            }
 
             // Save the tournament to the database
             // const path = JSON.parse(JSON.stringify(validatedData.image)).path.replace(/\\/g, '/').replace('public/', '')
@@ -20,7 +24,8 @@ export class TournamentService {
                     image: validatedData.image,
                     tipe: validatedData.tipe,
                     biaya: validatedData.biaya,
-                    LokasiID:parseInt(validatedData.LokasiID),
+                    lokasi: validatedData.lokasi,
+                    OwnerId: user.UserId
                 },
             });
 
@@ -50,7 +55,7 @@ export class TournamentService {
                     image: validatedData.image,
                     tipe: validatedData.tipe,
                     biaya: validatedData.biaya,
-                    LokasiID: parseInt(validatedData.LokasiID),
+                    lokasi: validatedData.lokasi,
                 },
             });
 

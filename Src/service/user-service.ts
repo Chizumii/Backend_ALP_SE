@@ -51,6 +51,7 @@ export class UserService {
                 nicknamegame: registerRequest.nicknamegame,
                 TeamID: registerRequest.TeamID,
                 Token: uuidv4(),
+                role: registerRequest.role
             },
         });
 
@@ -63,7 +64,7 @@ export class UserService {
         // Validate login request
         const loginRequest = Validation.validate(UserValidation.LOGIN, request);
 
-        const user = await prismaClient.user.findFirst({
+        let user = await prismaClient.user.findFirst({
             where: {
                 email: loginRequest.email,
             },
@@ -82,8 +83,20 @@ export class UserService {
             throw new ResponseError(400, "Invalid email or password!");
         }
 
+        user = await prismaClient.user.update({
+            where: {
+                UserId: user.UserId,
+            },
+            data: {
+                Token: uuidv4(),
+            },
+        })
+
+        const response = toUserResponse(user)
+
+        
         // Return user response
-        return toUserResponse(user);
+        return response;
     }
 
     // Update user

@@ -9,6 +9,7 @@ export interface RegisterUserRequest {
     nomor_telp: string;
     nicknamegame: string;
     TeamID: number;
+    role: string;
 }
 
 export interface UserResponse {
@@ -19,6 +20,7 @@ export interface UserResponse {
     nama_belakang: string;
     nomor_telp: string;
     nicknamegame: string;
+    role: string;
 }
 
 export interface UpdateUserRequest {
@@ -42,5 +44,6 @@ export function toUserResponse(prismaUser: User): UserResponse {
         nama_belakang: prismaUser.nama_belakang,
         nomor_telp: prismaUser.nomor_telp,
         nicknamegame: prismaUser.nicknamegame,
+        role: prismaUser.role
     };
 }

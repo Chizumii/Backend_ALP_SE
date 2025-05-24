@@ -6,7 +6,7 @@ export interface CreateTournament {
     image: String;
     tipe: string;
     biaya: string;
-    LokasiID: number;
+    lokasi: string;
 }
 
 export interface TournamentResponse {
@@ -16,7 +16,7 @@ export interface TournamentResponse {
     image: string;
     tipe: string;
     biaya: string;
-    LokasiID: number;
+    lokasi: string;
 }
 
 export interface TournamentRequest {
@@ -26,7 +26,7 @@ export interface TournamentRequest {
     image: string;
     tipe: string;
     biaya: string;
-    LokasiID: number;
+    lokasi: string;
 }
 
 export interface UpdateTournament {
@@ -35,7 +35,7 @@ export interface UpdateTournament {
     image: Express.Multer.File;
     tipe: string;
     biaya: string;
-    LokasiID: number;
+    lokasi: string;
 }
 export interface DeleteTournament {
     nama_tournament: string;
@@ -43,7 +43,7 @@ export interface DeleteTournament {
     image: string;
     tipe: string;
     biaya: string;
-    LokasiID: number;
+    lokasi: string;
 }
 
 export interface getAllTournament {
@@ -52,7 +52,7 @@ export interface getAllTournament {
     image: string;
     tipe: string;
     biaya: string;
-    LokasiID: number;
+    lokasi: string;
 }
 
 // Fungsi untuk konversi dari entitas Prisma ke respons
@@ -64,6 +64,6 @@ export function toTournamentResponse(prismaTournament: Tournament): TournamentRe
         image: prismaTournament.image,
         tipe: prismaTournament.tipe,
         biaya: prismaTournament.biaya,
-        LokasiID: prismaTournament.LokasiID,
+        lokasi: prismaTournament.lokasi,
     };
 }

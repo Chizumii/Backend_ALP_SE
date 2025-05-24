@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { TournamentService } from "../service/tournament-service";
+import { UserRequest } from "../type/user-request";
 
 export class TournamentController {
     // Create a new tournament
-    static async create(req: Request, res: Response) {
+    static async create(req: UserRequest, res: Response) {
         try {
-            const tournament = await TournamentService.createTournament(req.body);
-            res.status(201).json({
+            const tournament = await TournamentService.createTournament(req.body, req.user!);
+            res.status(200).json({
                 message: "Tournament created successfully",
                 data: tournament,
             });

@@ -1,0 +1,35 @@
+"use strict";
+// this router can only be accessed by unauthenticated people
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
+const express_1 = __importDefault(require("express"));
+const storage_1 = require("../utils/storage");
+const user_controller_1 = require("../controller/user-controller");
+const auth_middleware_1 = require("../middleware/auth-middleware");
+const berita_controller_1 = require("../controller/berita-controller");
+const tournament_controller_1 = require("../controller/tournament-controller");
+const team_controller_1 = require("../controller/team-controller");
+exports.router = express_1.default.Router();
+exports.router.use(auth_middleware_1.authMiddleware);
+exports.router.post("/api/logout", user_controller_1.UserController.logout);
+exports.router.put("/api/user", user_controller_1.UserController.update);
+exports.router.post("/api/berita", storage_1.upload.single('image'), berita_controller_1.BeritaController.create);
+exports.router.get("/api/berita", berita_controller_1.BeritaController.getAll);
+exports.router.get("/api/berita/:id", berita_controller_1.BeritaController.getById);
+exports.router.patch("/api/berita/:id", storage_1.upload.single('image'), berita_controller_1.BeritaController.update);
+exports.router.delete("/api/berita/:id", berita_controller_1.BeritaController.delete);
+exports.router.post("/api/tournament", storage_1.upload.single('image'), tournament_controller_1.TournamentController.create);
+exports.router.get("/api/tournament", tournament_controller_1.TournamentController.getAll);
+exports.router.patch("/api/tournament/:id", storage_1.upload.single('image'), tournament_controller_1.TournamentController.update);
+exports.router.delete("/api/tournament/:id", tournament_controller_1.TournamentController.delete);
+exports.router.post("/api/team", storage_1.upload.single('image'), team_controller_1.TeamController.create);
+exports.router.get("/api/team", team_controller_1.TeamController.getAll);
+exports.router.patch("/api/team/:id", storage_1.upload.single('image'), team_controller_1.TeamController.update);
+exports.router.delete("/api/team/:id", team_controller_1.TeamController.delete);
+// router.post("/api/lokasi", LokasiController.create);
+// router.get("/api/lokasi", LokasiController.getAll);
+// router.patch("/api/lokasi/:id", LokasiController.update);
+// router.delete("/api/lokasi/:id", LokasiController.delete);

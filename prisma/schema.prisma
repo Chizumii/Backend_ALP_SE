@@ -17,15 +17,15 @@ model User {
     UserId        Int      @id @default(autoincrement())
     username      String   @db.VarChar(100)
     email         String   @unique @db.VarChar(150)
+    role          String   @db.VarChar(100)
     password      String   @db.VarChar(100)
-    nama_depan    String   @db.VarChar(100)
-    nama_belakang String   @db.VarChar(100)
-    nomor_telp    String   @db.VarChar(100)
-    nicknamegame  String   @db.VarChar(100)
+    image         String           @db.VarChar(100)
+    IdGame        Int      
     TeamID        Int?
     Token         String?   @db.VarChar(100)
     Team          Team?    @relation(fields: [TeamID], references: [TeamId], onDelete: Cascade, onUpdate: Cascade)
     berita        Berita[]
+    Tournament    Tournament[]
 
     @@map("users")
 }
@@ -59,8 +59,9 @@ model Tournament {
     image           String           @db.VarChar(100)
     tipe            String           @db.VarChar(100)
     biaya           String           @db.VarChar(100)
-    LokasiID        Int
-    lokasi          Lokasi           @relation(fields: [LokasiID], references: [LokasiID], onDelete: Cascade, onUpdate: Cascade)
+    lokasi       String           @db.VarChar(100)
+    OwnerId         Int              
+    User            User            @relation(fields: [OwnerId], references: [UserId], onDelete: Cascade, onUpdate: Cascade)
     TeamTournament  TeamTournament[]
 
     @@map("tournaments")
@@ -76,12 +77,4 @@ model TeamTournament {
 
     @@id([TeamID, TournamentID])
     @@map("team_tournaments")
-}
-
-model Lokasi {
-    LokasiID    Int          @id @default(autoincrement())
-    lokasiAcara String       @db.VarChar(100)
-    Tournament  Tournament[]
-
-    @@map("lokasis")
 }

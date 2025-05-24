@@ -9,6 +9,7 @@ export class UserValidation {
         nama_belakang: z.string().min(1).max(100),
         nomor_telp: z.string().min(10).max(15).regex(/^\d+$/, "Must be a valid phone number"), // Validasi nomor telepon
         nicknamegame: z.string().min(1).max(100),
+        role: z.string().min(1).max(100),
         TeamID: z.number().int().optional(), // Opsional karena tim mungkin belum dipilih
     });
 
