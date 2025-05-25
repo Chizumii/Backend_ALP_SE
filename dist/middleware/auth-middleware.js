@@ -13,25 +13,23 @@ exports.authMiddleware = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = req.header("X-USER-ID"); // Mengambil user ID dari header
-    if (!userId) {
-        res.status(401).json({
-            errors: "Unauthorized",
+    const token = req.get("X-API-TOKEN");
+    if (token) {
+        const user = yield prisma.user.findFirst({
+            where: {
+                Token: token,
+            },
         });
-        return;
+        if (user) {
+            req.user = user;
+            next();
+            return;
+        }
     }
-    const user = yield prisma.user.findUnique({
-        where: {
-            UserId: parseInt(userId) // Pastikan userId diubah menjadi angka
-        },
-    });
-    if (user) {
-        req.user = user;
-        next();
-        return;
-    }
-    res.status(401).json({
+    res.status(401)
+        .json({
         errors: "Unauthorized",
-    });
+    })
+        .end();
 });
 exports.authMiddleware = authMiddleware;

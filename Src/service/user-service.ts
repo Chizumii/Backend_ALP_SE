@@ -45,10 +45,7 @@ export class UserService {
                 username: registerRequest.username,
                 email: registerRequest.email,
                 password: registerRequest.password,
-                nama_depan: registerRequest.nama_depan,
-                nama_belakang: registerRequest.nama_belakang,
-                nomor_telp: registerRequest.nomor_telp,
-                nicknamegame: registerRequest.nicknamegame,
+                IdGame: registerRequest.Idgame,
                 TeamID: registerRequest.TeamID,
                 Token: uuidv4(),
                 role: registerRequest.role
@@ -124,10 +121,8 @@ export class UserService {
                 email: userId,
             },
             data: {
-                nama_depan: updateRequest.nama_depan,
-                nama_belakang: updateRequest.nama_belakang,
-                nomor_telp: updateRequest.nomor_telp,
-                nicknamegame: updateRequest.nicknamegame,
+                username: updateRequest.username,
+                IdGame: updateRequest.Idgame,
             },
         });
 

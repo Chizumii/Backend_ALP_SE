@@ -4,10 +4,7 @@ export interface RegisterUserRequest {
     username: string;
     email: string;
     password: string;
-    nama_depan: string;
-    nama_belakang: string;
-    nomor_telp: string;
-    nicknamegame: string;
+    Idgame: number;
     TeamID: number;
     role: string;
 }
@@ -16,23 +13,21 @@ export interface UserResponse {
     token? :String
     username: string;
     email: string;
-    nama_depan: string;
-    nama_belakang: string;
-    nomor_telp: string;
-    nicknamegame: string;
+    Idgame: number;
     role: string;
+    image?: String;
 }
 
 export interface UpdateUserRequest {
-    nama_depan: string;
-    nama_belakang: string;
-    nomor_telp: string;
-    nicknamegame: string;
+    username: string;
+    Idgame: number;
+    image: String;
 }
 
 export interface LoginUserRequest {
     email: string;
     password: string;
+    image: String;
 }
 
 export function toUserResponse(prismaUser: User): UserResponse {
@@ -40,10 +35,8 @@ export function toUserResponse(prismaUser: User): UserResponse {
         token: prismaUser.Token?? "",
         username: prismaUser.username,
         email: prismaUser.email,
-        nama_depan: prismaUser.nama_depan,
-        nama_belakang: prismaUser.nama_belakang,
-        nomor_telp: prismaUser.nomor_telp,
-        nicknamegame: prismaUser.nicknamegame,
-        role: prismaUser.role
+        Idgame: prismaUser.IdGame,
+        role: prismaUser.role,
+        image: prismaUser.image?? ""
     };
 }

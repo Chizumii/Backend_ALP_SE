@@ -19,7 +19,7 @@ model User {
     email         String   @unique @db.VarChar(150)
     role          String   @db.VarChar(100)
     password      String   @db.VarChar(100)
-    image         String           @db.VarChar(100)
+    image         String?           @db.VarChar(100)
     IdGame        Int      
     TeamID        Int?
     Token         String?   @db.VarChar(100)
