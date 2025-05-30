@@ -5,7 +5,7 @@ export class UserValidation {
         username: z.string().min(1).max(100),
         email: z.string().email().min(1).max(150),
         password: z.string().min(8).max(100), // Tambahkan batas minimal untuk keamananon
-        Idgame: z.string().min(1).max(100),
+        Idgame: z.number().positive(),
         role: z.string().min(1).max(100),
         TeamID: z.number().int().optional(), // Opsional karena tim mungkin belum dipilih
     });

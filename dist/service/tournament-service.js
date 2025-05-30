@@ -16,21 +16,23 @@ const zod_1 = require("zod");
 const prisma = new client_1.PrismaClient();
 class TournamentService {
     // Create a tournament
-    static createTournament(data, user) {
+    static createTournament(data, user, file) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 // Validate the data using Zod
-                const validatedData = tournament_validation_1.TournamentValidation.CREATE.parse(data);
+                const validatedData = tournament_validation_1.TournamentValidation.CREATE.parse(Object.assign(Object.assign({}, data), { image: file.path // Use the path from the uploaded file
+                 }));
                 if (user.role == 'player') {
                     return "Player not authorized to create a Tournament";
                 }
+                const relativeImagePath = `/uploads/${file.filename}`;
                 // Save the tournament to the database
                 // const path = JSON.parse(JSON.stringify(validatedData.image)).path.replace(/\\/g, '/').replace('public/', '')
                 const newTournament = yield prisma.tournament.create({
                     data: {
                         nama_tournament: validatedData.nama_tournament,
                         description: validatedData.description,
-                        image: validatedData.image,
+                        image: relativeImagePath,
                         tipe: validatedData.tipe,
                         biaya: validatedData.biaya,
                         lokasi: validatedData.lokasi,

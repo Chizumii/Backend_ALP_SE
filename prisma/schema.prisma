@@ -58,8 +58,8 @@ model Tournament {
     description     String           @db.VarChar(100)
     image           String           @db.VarChar(100)
     tipe            String           @db.VarChar(100)
-    biaya           String           @db.VarChar(100)
-    lokasi       String           @db.VarChar(100)
+    biaya           Int           
+    lokasi          String           @db.VarChar(100)
     OwnerId         Int              
     User            User            @relation(fields: [OwnerId], references: [UserId], onDelete: Cascade, onUpdate: Cascade)
     TeamTournament  TeamTournament[]

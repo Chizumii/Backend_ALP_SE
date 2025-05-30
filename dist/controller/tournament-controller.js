@@ -16,7 +16,13 @@ class TournamentController {
     static create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const tournament = yield tournament_service_1.TournamentService.createTournament(req.body, req.user);
+                if (!req.file) {
+                    res.status(400).json({
+                        message: "No image file uploaded."
+                    });
+                    return;
+                }
+                const tournament = yield tournament_service_1.TournamentService.createTournament(req.body, req.user, req.file);
                 res.status(200).json({
                     message: "Tournament created successfully",
                     data: tournament,

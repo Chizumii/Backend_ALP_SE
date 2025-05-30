@@ -6,7 +6,13 @@ export class TournamentController {
     // Create a new tournament
     static async create(req: UserRequest, res: Response) {
         try {
-            const tournament = await TournamentService.createTournament(req.body, req.user!);
+            if (!req.file) {
+               res.status(400).json({
+                    message: "No image file uploaded."
+                });
+                return;
+            }
+            const tournament = await TournamentService.createTournament(req.body, req.user!, req.file);
             res.status(200).json({
                 message: "Tournament created successfully",
                 data: tournament,
@@ -14,7 +20,7 @@ export class TournamentController {
         } catch (error) {
             console.error(error);
             res.status(500).json({
-                message: "Filed to create Tournament", error
+                message: "Failed to create Tournament", error
             });
         }
     }
@@ -34,15 +40,16 @@ export class TournamentController {
     }
 
     // Update a tournament by ID
-    static async update(req: Request, res: Response, next: NextFunction) {
+    static async update(req: UserRequest, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
-            const tournamentData = req.body;
-            const request = {
-                ...tournamentData,
-                image: req.file,
+            if (!req.file) {
+               res.status(400).json({
+                    message: "No image file uploaded."
+                });
+                return;
             }
-            const updatedTournament = await TournamentService.updateTournament(parseInt(id, 10), request);
+            const updatedTournament = await TournamentService.updateTournament(parseInt(id, 10), req.body, req.user!, req.file);
 
             res.status(200).json({
                 message: "Tournament updated successfully",

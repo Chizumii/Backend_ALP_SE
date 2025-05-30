@@ -6,14 +6,20 @@ const prisma = new PrismaClient();
 
 export class TournamentService {
     // Create a tournament
-    static async createTournament(data: any, user: User) {
+    static async createTournament(data: any, user: User, file: Express.Multer.File) {
         try {
             // Validate the data using Zod
-            const validatedData = TournamentValidation.CREATE.parse(data);
+            const validatedData = TournamentValidation.CREATE.parse({
+                ...data, // Spread existing data
+                image: file.path // Use the path from the uploaded file
+            });
+
 
             if(user.role == 'player'){
                 return "Player not authorized to create a Tournament"
             }
+
+            const relativeImagePath = `/uploads/${file.filename}`;
 
             // Save the tournament to the database
             // const path = JSON.parse(JSON.stringify(validatedData.image)).path.replace(/\\/g, '/').replace('public/', '')
@@ -21,7 +27,7 @@ export class TournamentService {
                 data: {
                     nama_tournament: validatedData.nama_tournament,
                     description: validatedData.description,
-                    image: validatedData.image,
+                    image: relativeImagePath,
                     tipe: validatedData.tipe,
                     biaya: validatedData.biaya,
                     lokasi: validatedData.lokasi,
@@ -39,20 +45,25 @@ export class TournamentService {
     }
 
     // Update a tournament
-    static async updateTournament(id: number, data: any) {
+    static async updateTournament(id: number, data: any, user: User, file: Express.Multer.File) {
         try {
-            // Validate the data using Zod
-            console.log(data)
-            const validatedData = TournamentValidation.UPDATE.parse(data);
+            const validatedData = TournamentValidation.UPDATE.parse({
+                ...data, // Spread existing data
+                image: file.path // Use the path from the uploaded file
+            });
 
-            // Update the tournament in the database
-            const path = JSON.parse(JSON.stringify(validatedData.image)).path.replace(/\\/g, '/').replace('public/', '')
+
+            if(user.role == 'player'){
+                return "Player not authorized to create a Tournament"
+            }
+
+            const relativeImagePath = `/uploads/${file.filename}`;
             const updatedTournament = await prisma.tournament.update({
                 where: { TournamentID: id },
                 data: {
                     nama_tournament: validatedData.nama_tournament,
                     description: validatedData.description,
-                    image: validatedData.image,
+                    image: relativeImagePath,
                     tipe: validatedData.tipe,
                     biaya: validatedData.biaya,
                     lokasi: validatedData.lokasi,

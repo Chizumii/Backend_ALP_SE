@@ -10,7 +10,7 @@ const api_1 = require("../route/api");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.static("public"));
-app.use(router_api_1.router);
 app.use(api_1.apiRouter);
+app.use(router_api_1.router);
 app.use(error_middleware_1.errorMiddleware);
 exports.default = app;

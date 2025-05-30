@@ -9,7 +9,7 @@ UserValidation.REGISTER = zod_1.z.object({
     username: zod_1.z.string().min(1).max(100),
     email: zod_1.z.string().email().min(1).max(150),
     password: zod_1.z.string().min(8).max(100), // Tambahkan batas minimal untuk keamananon
-    Idgame: zod_1.z.string().min(1).max(100),
+    Idgame: zod_1.z.number().positive(),
     role: zod_1.z.string().min(1).max(100),
     TeamID: zod_1.z.number().int().optional(), // Opsional karena tim mungkin belum dipilih
 });

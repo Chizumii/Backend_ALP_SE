@@ -1,4 +1,4 @@
-// this router can only be accessed by unauthenticated people
+// this router can only be accessed by authenticated people
 
 import express from "express"
 import { upload } from "../utils/storage"
@@ -11,24 +11,24 @@ import { TeamController } from "../controller/team-controller"
 export const router = express.Router()
 router.use(authMiddleware)
 
-router.post("/api/logout", UserController.logout)
-router.put("/api/user", UserController.update);
+router.post("/logout", UserController.logout)
+router.put("/user", UserController.update);
 
-router.post("/api/berita", upload.single('image'), BeritaController.create);
-router.get("/api/berita", BeritaController.getAll);
-router.get("/api/berita/:id", BeritaController.getById);
-router.patch("/api/berita/:id", upload.single('image'), BeritaController.update);
-router.delete("/api/berita/:id", BeritaController.delete);
+router.post("/berita", upload.single('image'), BeritaController.create);
+router.get("/berita", BeritaController.getAll);
+router.get("/berita/:id", BeritaController.getById);
+router.patch("/berita/:id", upload.single('image'), BeritaController.update);
+router.delete("/berita/:id", BeritaController.delete);
 
-router.post("/api/tournament", upload.single('image'),TournamentController.create);
-router.get("/api/tournament", TournamentController.getAll);
-router.patch("/api/tournament/:id", upload.single('image'), TournamentController.update); 
-router.delete("/api/tournament/:id", TournamentController.delete);
+router.post("/tournament", upload.single('image'),TournamentController.create);
+router.get("/tournament", TournamentController.getAll);
+router.put("/tournament/:id", upload.single('image'), TournamentController.update); 
+router.delete("/tournament/:id", TournamentController.delete);
 
-router.post("/api/team", upload.single('image'), TeamController.create);
-router.get("/api/team", TeamController.getAll);
-router.patch("/api/team/:id", upload.single('image'), TeamController.update); 
-router.delete("/api/team/:id", TeamController.delete);
+router.post("/team", upload.single('image'), TeamController.create);
+router.get("/team", TeamController.getAll);
+router.patch("/team/:id", upload.single('image'), TeamController.update); 
+router.delete("/team/:id", TeamController.delete);
 
 // router.post("/api/lokasi", LokasiController.create);
 // router.get("/api/lokasi", LokasiController.getAll);

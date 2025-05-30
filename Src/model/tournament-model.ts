@@ -5,7 +5,7 @@ export interface CreateTournament {
     description: string;
     image: String;
     tipe: string;
-    biaya: string;
+    biaya: number;
     lokasi: string;
 }
 
@@ -15,7 +15,7 @@ export interface TournamentResponse {
     description: string;
     image: string;
     tipe: string;
-    biaya: string;
+    biaya: number;
     lokasi: string;
 }
 
@@ -25,7 +25,7 @@ export interface TournamentRequest {
     description: string;
     image: string;
     tipe: string;
-    biaya: string;
+    biaya: number;
     lokasi: string;
 }
 
@@ -34,7 +34,7 @@ export interface UpdateTournament {
     description: string;
     image: Express.Multer.File;
     tipe: string;
-    biaya: string;
+    biaya: number;
     lokasi: string;
 }
 export interface DeleteTournament {
@@ -42,7 +42,7 @@ export interface DeleteTournament {
     description: string;
     image: string;
     tipe: string;
-    biaya: string;
+    biaya: number;
     lokasi: string;
 }
 
@@ -51,7 +51,7 @@ export interface getAllTournament {
     description: string;
     image: string;
     tipe: string;
-    biaya: string;
+    biaya: number;
     lokasi: string;
 }
 

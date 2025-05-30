@@ -10,7 +10,7 @@ TournamentValidation.CREATE = zod_1.z.object({
     description: zod_1.z.string().min(1).max(100),
     image: zod_1.z.string().min(1).max(100),
     tipe: zod_1.z.string().min(1).max(100),
-    biaya: zod_1.z.string().min(1).max(100),
+    biaya: zod_1.z.number().positive(),
     lokasi: zod_1.z.string().min(1).max(100),
 });
 TournamentValidation.UPDATE = zod_1.z.object({
@@ -18,6 +18,6 @@ TournamentValidation.UPDATE = zod_1.z.object({
     description: zod_1.z.string().min(1).max(100),
     image: zod_1.z.string().min(1).max(100),
     tipe: zod_1.z.string().min(1).max(100),
-    biaya: zod_1.z.string().min(1).max(100),
+    biaya: zod_1.z.number().positive(),
     lokasi: zod_1.z.string().min(1).max(100),
 });
