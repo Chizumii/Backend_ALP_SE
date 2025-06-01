@@ -86,4 +86,84 @@ export class TournamentController {
             next(error);
         }
     }
+
+     static async checkRegistrationStatus(req: UserRequest, res: Response, next: NextFunction) {
+        try {
+            const { tournamentId } = req.params;
+            const userId = req.user!.UserId;
+            
+            const isRegistered = await TournamentService.checkTeamRegistration(
+                parseInt(tournamentId, 10), 
+                userId
+            );
+
+            res.status(200).json({
+                message: "Registration status retrieved successfully",
+                data: {
+                    isRegistered,
+                    message: isRegistered ? "Team is already registered" : "Team is not registered"
+                }
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+     static async registerTeam(req: UserRequest, res: Response, next: NextFunction) {
+        try {
+            const { tournamentId } = req.params;
+            const userId = req.user!.UserId;
+
+            const registration = await TournamentService.registerTeamForTournament(
+                parseInt(tournamentId, 10), 
+                userId
+            );
+
+            res.status(200).json({
+                message: "Team registered successfully",
+                data: registration
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    // ADD THIS NEW METHOD for registering specific team to tournament
+    static async registerTeamWithId(req: UserRequest, res: Response, next: NextFunction) {
+        try {
+            const { tournamentId, teamId } = req.params;
+            const userId = req.user!.UserId;
+
+            const registration = await TournamentService.registerSpecificTeamForTournament(
+                parseInt(tournamentId, 10), 
+                parseInt(teamId, 10),
+                userId
+            );
+
+            res.status(200).json({
+                message: "Team registered successfully",
+                data: registration
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async unregisterTeam(req: UserRequest, res: Response, next: NextFunction) {
+        try {
+            const { tournamentId } = req.params;
+            const userId = req.user!.UserId;
+
+            await TournamentService.unregisterTeamFromTournament(
+                parseInt(tournamentId, 10), 
+                userId
+            );
+
+            res.status(200).json({
+                message: "Team unregistered successfully"
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 }

@@ -20,10 +20,15 @@ router.get("/berita/:id", BeritaController.getById);
 router.patch("/berita/:id", upload.single('image'), BeritaController.update);
 router.delete("/berita/:id", BeritaController.delete);
 
-router.post("/tournament", upload.single('image'),TournamentController.create);
+router.post("/tournament", upload.single('image'), TournamentController.create);
 router.get("/tournament", TournamentController.getAll);
 router.put("/tournament/:id", upload.single('image'), TournamentController.update); 
 router.delete("/tournament/:id", TournamentController.delete);
+router.get("/tournament/:tournamentId/registration-status", TournamentController.checkRegistrationStatus);
+router.post("/tournament/:tournamentId/register", TournamentController.registerTeam);
+router.post("/tournament/:tournamentId/register/:teamId", TournamentController.registerTeamWithId);
+router.delete("/tournament/:tournamentId/unregister", TournamentController.unregisterTeam);
+
 
 router.post("/team", upload.single('image'), TeamController.create);
 router.get("/team", TeamController.getAll);
