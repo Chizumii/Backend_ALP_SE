@@ -43,13 +43,13 @@ export class TournamentController {
     static async update(req: UserRequest, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
+            let updatedTournament
             if (!req.file) {
-               res.status(400).json({
-                    message: "No image file uploaded."
-                });
-                return;
+               updatedTournament = await TournamentService.updateTournament(parseInt(id, 10), req.body, req.user!, null);
+            }else{
+                updatedTournament = await TournamentService.updateTournament(parseInt(id, 10), req.body, req.user!, req.file);
             }
-            const updatedTournament = await TournamentService.updateTournament(parseInt(id, 10), req.body, req.user!, req.file);
+            
 
             res.status(200).json({
                 message: "Tournament updated successfully",
