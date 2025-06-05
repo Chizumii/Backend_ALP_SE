@@ -19,7 +19,7 @@ export class TournamentService {
                 return "Player not authorized to create a Tournament"
             }
 
-            const relativeImagePath = `/uploads/${file.filename}`;
+            const relativeImagePath = `/images/${file.filename}`;
 
             const newTournament = await prisma.tournament.create({
                 data: {
@@ -54,7 +54,7 @@ export class TournamentService {
                 return "Player not authorized to create a Tournament"
             }
 
-            const relativeImagePath = `/uploads/${file.filename}`;
+            const relativeImagePath = `/images/${file.filename}`;
             const updatedTournament = await prisma.tournament.update({
                 where: { TournamentID: id },
                 data: {
