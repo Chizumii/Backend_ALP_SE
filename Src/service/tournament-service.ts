@@ -43,30 +43,57 @@ export class TournamentService {
     }
 
     // Update a tournament
-    static async updateTournament(id: number, data: any, user: User, file: Express.Multer.File) {
+      static async updateTournament(id: number, data: any, user: User, file: Express.Multer.File | null) {
         try {
-            const validatedData = TournamentValidation.UPDATE.parse({
-                ...data,
-                image: file.path
-            });
+            let updatedTournament
 
             if(user.role == 'player'){
                 return "Player not authorized to create a Tournament"
             }
 
-            const relativeImagePath = `/images/${file.filename}`;
-            const updatedTournament = await prisma.tournament.update({
-                where: { TournamentID: id },
-                data: {
-                    nama_tournament: validatedData.nama_tournament,
-                    description: validatedData.description,
-                    image: relativeImagePath,
-                    tipe: validatedData.tipe,
-                    biaya: validatedData.biaya,
-                    lokasi: validatedData.lokasi,
-                },
-            });
+            if(file){
+                const validatedData = TournamentValidation.UPDATE.parse({
+                    ...data,
+                    image: file.path
+                });
 
+
+                const relativeImagePath = `/images/${file.filename}`;
+                updatedTournament = await prisma.tournament.update({
+                    where: { TournamentID: id },
+                    data: {
+                        nama_tournament: validatedData.nama_tournament,
+                        description: validatedData.description,
+                        image: relativeImagePath,
+                        tipe: validatedData.tipe,
+                        biaya: validatedData.biaya,
+                        lokasi: validatedData.lokasi,
+                    },
+                });
+
+            }else{
+                const validatedData = TournamentValidation.UPDATE.parse({
+                    ...data
+                });
+
+                const prevTournament = await prisma.tournament.findFirst({
+                    where: { TournamentID: id}
+                })
+
+                updatedTournament = await prisma.tournament.update({
+                    where: { TournamentID: id },
+                    data: {
+                        nama_tournament: validatedData.nama_tournament,
+                        description: validatedData.description,
+                        image: validatedData.image,
+                        tipe: validatedData.tipe,
+                        biaya: validatedData.biaya,
+                        lokasi: validatedData.lokasi,
+                    },
+                });
+            }
+
+            
             return updatedTournament;
         } catch (error) {
             if (error instanceof ZodError) {
@@ -75,6 +102,7 @@ export class TournamentService {
             throw error;
         }
     }
+
 
     // Delete a tournament
     static async deleteTournament(id: number) {
